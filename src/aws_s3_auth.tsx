@@ -42,7 +42,8 @@ export class GetS3Keys extends React.Component<Props>{
       const s3Auth = new UserS3(awsS3Keys.accessKey, awsS3Keys.secretAccessKey);
 
       // Following function call will validate the user and only after validation will the S3 object be stored in app
-      s3Auth.checkAndDisplayValidUser(this.props.onViewChange!, 'config-bucket', this.props.onS3ObjChange!, s3Auth);
+      const temp = s3Auth.checkAndDisplayValidUser(this.props.onViewChange!, 'config-bucket', this.props.onS3ObjChange!, s3Auth);
+      console.log("testing output:\n", temp);
   };
   
   render () {

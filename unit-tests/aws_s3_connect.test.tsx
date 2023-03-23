@@ -28,3 +28,6 @@ describe("Test changeUser()", () => {
     expect(s.changeUser("", "")).toBeFalsy();
   });
 });
+
+
+// test function checkAndDisplayValidBucket
