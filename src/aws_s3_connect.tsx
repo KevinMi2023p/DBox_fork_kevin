@@ -142,17 +142,21 @@ export class UserS3 {
     s3Obj: UserS3
   ) {
     const command = new GetCallerIdentityCommand({});
-    this.stsClient
+    const res = this.stsClient
       .send(command)
       .then((data) => {
         setS3Obj(s3Obj);
         setViewState(args);
         this.validUser = true;
+        return true;
       })
       .catch((err) => {
         console.log(err);
         this.validUser = false;
+        return false;
       });
+
+    return res;
   }
 
   uploadFile = (url: string, bucketName: string, uniqueTime: string) => {
