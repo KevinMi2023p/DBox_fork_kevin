@@ -140,7 +140,7 @@ export class UserS3 {
     args: string,
     setS3Obj: (s3Obj: UserS3) => void,
     s3Obj: UserS3
-  ) {
+  ) : Promise<boolean> {
     const command = new GetCallerIdentityCommand({});
     const res = this.stsClient
       .send(command)
@@ -151,7 +151,7 @@ export class UserS3 {
         return true;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.validUser = false;
         return false;
       });
