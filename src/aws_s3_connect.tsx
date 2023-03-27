@@ -151,12 +151,11 @@ export class UserS3 {
         return true;
       })
       .catch((err) => {
-        // console.log(err);
         this.validUser = false;
         return false;
       });
 
-    return res;
+    return res
   }
 
   uploadFile = (url: string, bucketName: string, uniqueTime: string) => {
