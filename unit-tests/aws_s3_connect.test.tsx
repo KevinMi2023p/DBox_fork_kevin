@@ -1,5 +1,8 @@
 import {UserS3} from "../src/aws_s3_connect";
 // import {App} from "../src/app";
+const { mockClient } = require("aws-sdk-client-mock");
+const { S3Client } = require("@aws-sdk/client-s3");
+const { STSClient } = require("@aws-sdk/client-sts");
 
 // test function changeBucket
 describe("Test changeBucket()", () => {
@@ -36,13 +39,31 @@ describe("Test changeUser()", () => {
 // https://stackoverflow.com/questions/49603338/how-to-test-an-exception-was-not-thrown-with-jest
 // https://stackoverflow.com/questions/46042613/how-to-test-the-type-of-a-thrown-exception-in-jest
 describe("Test checkAndDisplayValidBucket()", () => {
-  test("Invalid inputs (bad user keys)", () => {
-    let tempS3 = new UserS3("badKey", "badKey");
-    function tempFunction1(input : string) {}
-    function tempFunction2(input : UserS3) {}
-    expect(tempS3.checkAndDisplayValidUser(
-      tempFunction1, "bucket", tempFunction2, tempS3)).resolves.toThrow();
+  const mockS3 = mockClient(S3Client);
+  const mockSTS = mockClient(STSClient);
+  // let testUserS3 = new UserS3("test", "test");
+
+  beforeEach(() => {
+    mockS3.reset();
+    mockSTS.reset();
+    // testUserS3.mockSetter(mockS3, mockSTS);
   });
 
+  test("Invalid inputs (bad user keys)", () => {
 
+    const mockS3 = mockClient(S3Client);
+    const mockSTS = mockClient(STSClient);
+    let testUserS3 = new UserS3("test", "test");
+    testUserS3.mockSetter(mockS3, mockSTS);
+
+    const tempFunction1 = () => {};
+    const tempFunction2 = () => {};
+
+    expect(testUserS3.checkAndDisplayValidUser(
+      tempFunction1,
+      "test",
+      tempFunction2,
+      mockS3,
+    )).resolves.toBeFalsy();
+  });
 });
