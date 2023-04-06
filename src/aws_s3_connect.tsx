@@ -69,6 +69,12 @@ export class UserS3 {
     return this.secretAccessKey;
   }
 
+  // Set to aws-sdk mocking for unit tests
+  mockSetter (s3Client_mock: S3Client, stsClient_mock: STSClient) {
+    this.s3Client = s3Client_mock;
+    this.stsClient = stsClient_mock;
+  }
+
   // Change the user's keys
   changeUser(publicKey: string, privateKey: string): boolean {
     if (publicKey.length === 0 || privateKey.length === 0) {
